@@ -17,3 +17,9 @@ Run these commands in separate terminals:
 npm run server
 npm run client
 ```
+
+Create the first admin account:
+
+```bash
+npm run create-admin --prefix server -- "Your Name" "you@example.com" "password"
+```
