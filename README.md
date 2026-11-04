@@ -23,3 +23,17 @@ Create the first admin account:
 ```bash
 npm run create-admin --prefix server -- "Your Name" "you@example.com" "password"
 ```
+
+## Render
+
+Build command:
+
+```bash
+npm install --prefix client && npm install --prefix server && npm run build
+```
+
+Start command:
+
+```bash
+npm start
+```

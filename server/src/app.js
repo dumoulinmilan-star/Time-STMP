@@ -1,7 +1,9 @@
 const cors = require("cors")
 const express = require("express")
+const path = require("path")
 
 const authRoutes = require("./routes/authRoutes")
+const userRoutes = require("./routes/userRoutes")
 
 const app = express()
 const allowedOrigins = [
@@ -15,10 +17,21 @@ app.use(cors({
 app.use(express.json())
 
 app.use("/api/auth", authRoutes)
+app.use("/api/users", userRoutes)
 
 app.get("/api/health", (req, res) => {
   res.json({ message: "TimeSTMP API is running" })
 })
+
+if (process.env.NODE_ENV === "production") {
+  const clientFolder = path.join(__dirname, "../../client/dist")
+
+  app.use(express.static(clientFolder))
+
+  app.get(/^(?!\/api).*/, (req, res) => {
+    res.sendFile(path.join(clientFolder, "index.html"))
+  })
+}
 
 app.use((req, res) => {
   res.status(404).json({ message: "Route not found" })

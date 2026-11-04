@@ -78,12 +78,73 @@ label {
   font-weight: 700;
 }
 
-input {
+input,
+select {
   width: 100%;
   padding: 10px;
   border: 1px solid #b8c1cc;
   border-radius: 6px;
   font: inherit;
+}
+
+.wide-page {
+  place-items: start center;
+}
+
+.wide-card {
+  width: min(100%, 1100px);
+}
+
+.team-form {
+  max-width: 520px;
+}
+
+.team-form h2 {
+  margin-bottom: 4px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dashboard-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.dashboard-actions .button {
+  margin-top: 0;
+}
+
+.secondary {
+  border: 1px solid #b8c1cc;
+  background: white;
+  color: #1f2937;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px;
+  border-bottom: 1px solid #dbe1e8;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #f4f6f8;
 }
 
 button {

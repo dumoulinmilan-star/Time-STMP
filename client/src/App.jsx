@@ -1,7 +1,9 @@
 import { useState } from "react"
 import { Link, Navigate, Route, Routes, useNavigate } from "react-router-dom"
 
-const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000/api"
+import TeamPage from "./pages/TeamPage"
+
+const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? "http://localhost:3000/api" : "/api")
 
 function HomePage() {
   return (
@@ -113,8 +115,11 @@ function DashboardPage({ user, setUser }) {
       <section className="card">
         <p className="eyebrow">Dashboard</p>
         <h1>Hello, {user.name}</h1>
-        <p>You are logged in as {user.role}.</p>
-        <button onClick={logout}>Log out</button>
+        <p>You are logged in as {user.role === "admin" ? "admin" : "team member"}.</p>
+        <div className="dashboard-actions">
+          {user.role === "admin" && <Link className="button" to="/team">Manage team</Link>}
+          <button className="secondary" onClick={logout}>Log out</button>
+        </div>
       </section>
     </main>
   )
@@ -131,6 +136,10 @@ function App() {
       <Route
         path="/dashboard"
         element={user ? <DashboardPage user={user} setUser={setUser} /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/team"
+        element={user?.role === "admin" ? <TeamPage currentUser={user} /> : <Navigate to="/dashboard" />}
       />
     </Routes>
   )
