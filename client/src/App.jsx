@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link, Navigate, Route, Routes, useNavigate } from "react-router-dom"
 
+import ProjectsPage from "./pages/ProjectsPage"
 import TeamPage from "./pages/TeamPage"
 
 const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? "http://localhost:3000/api" : "/api")
@@ -118,6 +119,7 @@ function DashboardPage({ user, setUser }) {
         <p>You are logged in as {user.role === "admin" ? "admin" : "team member"}.</p>
         <div className="dashboard-actions">
           {user.role === "admin" && <Link className="button" to="/team">Manage team</Link>}
+          {user.role === "admin" && <Link className="button" to="/projects">Manage projects</Link>}
           <button className="secondary" onClick={logout}>Log out</button>
         </div>
       </section>
@@ -140,6 +142,10 @@ function App() {
       <Route
         path="/team"
         element={user?.role === "admin" ? <TeamPage currentUser={user} /> : <Navigate to="/dashboard" />}
+      />
+      <Route
+        path="/projects"
+        element={user?.role === "admin" ? <ProjectsPage /> : <Navigate to="/dashboard" />}
       />
     </Routes>
   )

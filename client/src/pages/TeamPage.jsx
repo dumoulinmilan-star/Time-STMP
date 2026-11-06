@@ -14,25 +14,32 @@ const emptyForm = {
 
 function TeamPage({ currentUser }) {
   const [users, setUsers] = useState([])
+  const [projects, setProjects] = useState([])
   const [form, setForm] = useState(emptyForm)
   const [editingId, setEditingId] = useState(null)
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    loadUsers()
+    loadData()
   }, [])
 
-  async function loadUsers() {
+  async function loadData() {
+    const headers = { Authorization: localStorage.getItem("token") }
+
     try {
-      const response = await fetch(`${apiUrl}/users`, {
-        headers: { Authorization: localStorage.getItem("token") }
-      })
-      const data = await response.json()
+      const [usersResponse, projectsResponse] = await Promise.all([
+        fetch(`${apiUrl}/users`, { headers }),
+        fetch(`${apiUrl}/projects`, { headers })
+      ])
+      const usersData = await usersResponse.json()
+      const projectsData = await projectsResponse.json()
 
-      if (!response.ok) throw new Error(data.message)
+      if (!usersResponse.ok) throw new Error(usersData.message)
+      if (!projectsResponse.ok) throw new Error(projectsData.message)
 
-      setUsers(data.users)
+      setUsers(usersData.users)
+      setProjects(projectsData.projects)
     } catch (error) {
       setError(error.message || "Could not load team members.")
     } finally {
@@ -183,6 +190,7 @@ function TeamPage({ currentUser }) {
                 <tr>
                   <th>Name</th>
                   <th>Role</th>
+                  <th>Projects</th>
                   <th>Internal rate</th>
                   <th>Billing rate</th>
                   <th>Status</th>
@@ -194,6 +202,12 @@ function TeamPage({ currentUser }) {
                   <tr key={user.id}>
                     <td>{user.name}<br /><small>{user.email}</small></td>
                     <td>{user.role === "admin" ? "Admin" : "Team member"}</td>
+                    <td>
+                      {projects
+                        .filter((project) => project.members.some((member) => member.id === user.id))
+                        .map((project) => project.name)
+                        .join(", ") || "None"}
+                    </td>
                     <td>${user.internalRate.toFixed(2)}</td>
                     <td>${user.billingRate.toFixed(2)}</td>
                     <td>{user.active ? "Active" : "Inactive"}</td>

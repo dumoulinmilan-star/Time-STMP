@@ -103,6 +103,34 @@ select {
   margin-bottom: 4px;
 }
 
+fieldset {
+  margin: 8px 0;
+  padding: 16px;
+  border: 1px solid #b8c1cc;
+  border-radius: 6px;
+}
+
+legend {
+  padding: 0 6px;
+  font-weight: 700;
+}
+
+.member-list {
+  display: grid;
+  gap: 10px;
+}
+
+.member-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400;
+}
+
+.member-option input {
+  width: auto;
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
