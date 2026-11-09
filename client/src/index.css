@@ -79,12 +79,18 @@ label {
 }
 
 input,
-select {
+select,
+textarea {
   width: 100%;
   padding: 10px;
   border: 1px solid #b8c1cc;
   border-radius: 6px;
   font: inherit;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
 }
 
 .wide-page {
@@ -146,6 +152,10 @@ legend {
 
 .dashboard-actions .button {
   margin-top: 0;
+}
+
+.logout-button {
+  margin-top: 32px;
 }
 
 .secondary {
